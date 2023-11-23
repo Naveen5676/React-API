@@ -2,8 +2,7 @@ import React from 'react';
 
 import Movie from '../Components/Movie';
 
-import classes from './MoviesList.module.css';
-
+import classes from './MoviesList.module.css'
 const MovieList = (props) => {
   return (
     <ul className={classes['movies-list']}>
