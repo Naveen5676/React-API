@@ -1,19 +1,26 @@
-
-.form {
-    display: flex;
-    flex-direction: column;
-    max-width: 300px;
-    margin: auto;
+.control {
+    margin: 1rem 0;
   }
   
-  .form label {
+  .control label {
+    display: block;
     font-weight: bold;
-    width: 100%;
-    margin-bottom: 8px;
+    margin-bottom: 0.5rem;
+    text-align: left;
   }
   
-  .form input {
+  .control input,
+  .control textarea {
+    display: block;
     width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
+    font: inherit;
+    padding: 0.2rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+  }
+  
+  .control input:focus,
+  .control textarea:focus {
+    outline: none;
+    border-color: #230052;
   }

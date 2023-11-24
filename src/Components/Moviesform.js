@@ -1,38 +1,43 @@
-import React, { Fragment } from "react";
-import classes from "./Moviesform.module.css";
+import React, { useRef } from 'react';
 
-const Moviesform = () => {
-  const datahandler = (event) => {
-    event.preventDefault(); // Prevents the default form submission behavior
+import classes from './Moviesform.module.css';
 
-    const title = event.target.elements.title.value;
-    const opentxt = event.target.elements.opeaningtxt.value;
-    const rdate = event.target.elements.releasedt.value;
+function AddMovie(props) {
+  const titleRef = useRef('');
+  const openingTextRef = useRef('');
+  const releaseDateRef = useRef('');
 
-    const newdata = {
-      title: title,
-      opentxt: opentxt,
-      rdate: rdate,
+  function submitHandler(event) {
+    event.preventDefault();
+
+    // could add validation here...
+
+    const movie = {
+      title: titleRef.current.value,
+      openingText: openingTextRef.current.value,
+      releaseDate: releaseDateRef.current.value,
     };
 
-    console.log(newdata);
-
-    event.target.reset();
-  };
+    props.onAddMovie(movie);
+  }
 
   return (
-    <Fragment>
-      <form onSubmit={datahandler} className={classes.form}>
-        <label>Title</label>
-        <input type="text" name="title"></input>
-        <label>Opeaning Text</label>
-        <input type="text" name="opeaningtxt"></input>
-        <label>Release Date</label>
-        <input type="number" name="releasedt"></input>
-        <button type="submit">Submit</button>
-      </form>
-    </Fragment>
+    <form onSubmit={submitHandler}>
+      <div className={classes.control}>
+        <label htmlFor='title'>Title</label>
+        <input type='text' id='title' ref={titleRef} />
+      </div>
+      <div className={classes.control}>
+        <label htmlFor='opening-text'>Opening Text</label>
+        <textarea rows='5' id='opening-text' ref={openingTextRef}></textarea>
+      </div>
+      <div className={classes.control}>
+        <label htmlFor='date'>Release Date</label>
+        <input type='text' id='date' ref={releaseDateRef} />
+      </div>
+      <button>Add Movie</button>
+    </form>
   );
-};
+}
 
-export default React.memo(Moviesform);
+export default AddMovie;
