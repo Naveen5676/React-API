@@ -1,4 +1,4 @@
-import React, { Fragment,useState } from "react";
+import React, { Fragment,useEffect,useState , useCallback} from "react";
 
 import MovieList from "./Components/MoviesList";
 import "./App.css";
@@ -9,11 +9,13 @@ function App() {
   const [error, setError] = useState(null);
   const [retrying , setRetrying]=useState(false);
 
-  async function fetchMoviesHandler() {
+
+
+  const fetchMoviesHandler = useCallback(async ()=> {
     setisLoading(true);
     setError(null);
     try {
-      const response = await fetch("https://swapi.dev/api/film/");
+      const response = await fetch("https://swapi.dev/api/films/");
       if (!response.ok) {
         throw new Error("Could not fetch movies Error ");
       }
@@ -35,7 +37,9 @@ function App() {
       setRetrying(true);
     }
     setisLoading(false);
-  }
+  });
+
+  useEffect(()=>{fetchMoviesHandler();},[])
 
   const cancelRetryHandler = () => {
     setRetrying(false);
