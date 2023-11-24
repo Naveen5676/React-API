@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState, useCallback } from "react";
 import Moviesform from "./Components/Moviesform";
 import MovieList from "./Components/MoviesList";
 import "./App.css";
+import Deleteprovider from "./Store/Deleteprovider";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -19,16 +20,21 @@ function App() {
       }
 
       const data = await response.json();
-      const transformedMovies = data.results.map((movieData) => {
-        return {
-          id: movieData.episode_id,
-          title: movieData.title,
-          openingText: movieData.opening_crawl,
-          releaseDate: movieData.release_date,
-        };
-      });
 
-      setMovies(transformedMovies);
+      const loadedMovies=[];
+
+      for(const key in data){
+        loadedMovies.push({
+          id:key,
+          title:data[key].title,
+          opeaningText:data[key].opeaningText,
+          releaseDate:data[key].releaseDate
+
+        })
+      }
+
+
+      setMovies(loadedMovies);
     } catch (error) {
       setError(error.message);
       setRetrying(true);
@@ -44,8 +50,16 @@ function App() {
     setRetrying(false);
   };
 
-  function addMovieHandler(movie) {
-    console.log(movie);
+  async function addMovieHandler(movie) {
+    const response = await fetch('https://react-api-1b936-default-rtdb.firebaseio.com/movies.json',{
+      method:'POST',
+      body:JSON.stringify(movie),
+      headers:{
+        'content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    console.log(data)
   }
 
   let content = <p>Found no movies</p>;
@@ -68,7 +82,7 @@ function App() {
   }
 
   return (
-    <React.Fragment>
+    <Deleteprovider>
       <section>
         <Moviesform  onAddMovie={addMovieHandler}/>
       </section>
@@ -76,7 +90,7 @@ function App() {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>{content}</section>
-    </React.Fragment>
+    </Deleteprovider>
   );
 }
 

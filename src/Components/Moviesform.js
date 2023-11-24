@@ -14,7 +14,7 @@ function AddMovie(props) {
 
     const movie = {
       title: titleRef.current.value,
-      openingText: openingTextRef.current.value,
+      opeaningText: openingTextRef.current.value,
       releaseDate: releaseDateRef.current.value,
     };
 
